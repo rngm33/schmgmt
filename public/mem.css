@@ -1,0 +1,20 @@
+@media print{
+            table {
+              color: #ec1111;
+                border-width: 1px;
+                border-color: #666666;
+            }
+            td, th {
+               border-width: 1px;
+                border-color: #e01212;
+                border-right:1px solid rgb(218, 20, 20);
+                border-bottom:1px solid rgb(221, 20, 20);
+            }
+           
+            thead th {
+              border-top:1px solid rgb(190, 22, 22);
+            }
+            
+       
+}
+       
