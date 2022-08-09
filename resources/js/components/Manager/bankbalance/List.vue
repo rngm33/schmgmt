@@ -30,7 +30,7 @@
                     <router-link :to="'/bankbalance/create'" class="btn btn-primary btn-block" style="color:#fff"> Add <i class="fas fa-user-plus fa-fw"></i></router-link>
                   </div>
                   <div class="col-md-10">
-                    
+  
                   </div>
                 </div>
               </div><!-- /.card-header -->
@@ -40,10 +40,10 @@
                     <thead class="table-primary text-center">                  
                       <tr>
                         <th width="10">SN</th>
+                        <th>Type</th>
                         <th>Bank</th>
                         <th>Account No</th>
                         <th>Amount</th>
-                        <th>Info</th>
                         <th>Description</th>
                         <th>Status</th>
                         <th>Created At</th>
@@ -53,10 +53,11 @@
                     <tbody class="text-center">
                       <tr v-for="(data,index) in getAllBankBalance" :key="data.id" :class="colorchange(data.is_active)">
                         <td>{{index+1}}</td>
+                        <td v-if="data.type == 'Default'">{{data.type}}</td>
+                        <td v-if="data.type == 'Random'">{{data.type}}</td>
                         <td>{{data.bank_name}}</td>
                         <td>{{data.account_no}}</td>
                         <td>{{data.amount}}</td>
-                        <td>{{data.get_lucky_draw.name}} | {{data.get_kista.name}}</td>
                         <td>{{data.description}}</td>
                         <td v-if="data.is_active == '0'">Inactive <a href="javascript:void(0)" @click.prevent="BankBalanceStatus(data.id, data.is_active)" title="Click to Publish"><i class="nav-icon fas fa-times-circle text-danger"></i></a></td>
                         <td v-else>Active <a href="javascript:void(0)" @click.prevent="BankBalanceStatus(data.id, data.is_active)" title="Click to Unpublish"><i class="nav-icon fas fa-check-circle text-success"></i></a></td>
@@ -64,9 +65,17 @@
                           {{data.date_np}} 
                           <span class="badge badge-warning text-danger">{{data.created_at  | formatDate}}</span>
                         </td>                        
-                        <td>
-                          <a href="" class="btn btn-xs btn-outline-success"> <i class="nav-icon fas fa-money-check" title="Click to withdraw"></i></a>
-                          <a href="" class="btn btn-xs btn-outline-dark"> <i class="nav-icon fas fa-wallet" title="Transfer to wallet"></i></a>
+                        <td v-if="data.type == 'Default'">
+                          <!-- <a href="" class="btn btn-xs btn-outline-secondary"> <i class="nav-icon fas fa-rupee-sign" title="Transfer to cash"></i></a>
+                          <a href="" class="btn btn-xs btn-outline-dark"> <i class="nav-icon fas fa-wallet" title="Transfer to wallet"></i></a> -->
+                          <router-link :to="`/bankbalance/${data.id}/cashtransfer`" class="btn btn-xs btn-outline-secondary"><i class="nav-icon fas fa-rupee-sign" title="Transfer to Cash"></i></router-link>
+                          <router-link :to="`/bankbalance/${data.id}/wallettransfer`" class="btn btn-xs btn-outline-dark"><i class="nav-icon fas fa-wallet" title="Transfer to Wallet"></i></router-link> 
+                          <router-link :to="`/bankbalance/${data.id}/edit`" class="btn btn-xs btn-outline-info"><i class="fas fa-pencil-alt" title="Click to edit"></i></router-link> 
+                          <a href="" @click.prevent="deleteBankBalance(data.id)" class="btn btn-xs btn-outline-danger"><i class="fas fa-trash-alt" title="Click to delete"></i></a>
+                        </td>
+                        <td v-if="data.type == 'Random'">
+                          <!-- <a href="" class="btn btn-xs btn-outline-success"> <i class="nav-icon fas fa-landmark" title="Transfer to Bank"></i></a> -->
+                          <router-link :to="`/bankbalance/${data.id}/banktransfer`" class="btn btn-xs btn-outline-success"><i class="nav-icon fas fa-landmark" title="Transfer to Bank"></i></router-link> 
                           <router-link :to="`/bankbalance/${data.id}/edit`" class="btn btn-xs btn-outline-info"><i class="fas fa-pencil-alt" title="Click to edit"></i></router-link> 
                           <a href="" @click.prevent="deleteBankBalance(data.id)" class="btn btn-xs btn-outline-danger"><i class="fas fa-trash-alt" title="Click to delete"></i></a>
                         </td>

@@ -53,11 +53,11 @@
                           <has-error :form="form" field="item_name"></has-error>
                         </div>
                         <div class="form-group col-md-12">
-                          <label for="quantity">Quantity<code>*</code></label>
-                          <input type="text" class="form-control" @keyup="calculateAmt" id="quantity"
-                            placeholder="Add quantity" v-model="form.quantity" name="quantity"
-                            :class="{ 'is-invalid': form.errors.has('quantity') }" autocomplete="off">
-                          <has-error :form="form" field="quantity"></has-error>
+                          <label for="purchase_quantity">Purchase Quantity<code>*</code></label>
+                          <input type="text" class="form-control" @keyup="calculateAmt" id="purchase_quantity"
+                            placeholder="Add quantity" v-model="form.purchase_quantity" name="purchase_quantity"
+                            :class="{ 'is-invalid': form.errors.has('purchase_quantity') }" autocomplete="off">
+                          <has-error :form="form" field="purchase_quantity"></has-error>
                         </div>
                         <div class="form-group col-md-12">
                           <label for="rate">Rate<code></code></label>
@@ -69,7 +69,6 @@
                         <div class="form-group col-md-12">
                           <input type="checkbox" @change="checkedVal($event)" id="vat" v-model="form.vat" name="vat">
                           <label for="vat">VAT<code>(13%)</code></label>
-
                         </div>
                         <div class="form-group col-md-12">
                           <label for="amount">Amount<code>*</code></label>
@@ -77,6 +76,26 @@
                             v-model="form.amount" name="amount" :class="{ 'is-invalid': form.errors.has('amount') }"
                             autocomplete="off" @keypress="isNumber($event)">
                           <has-error :form="form" field="amount"></has-error>
+                        </div>
+                        <div class="form-group col-md-12">
+                          <label for="type">Type<code>*</code></label>
+                            <select class="form-control" id="type" v-model="form.type"> 
+                              <option disabled value="">Select One</option>
+                              <option value="Cash">Cash Equivalent</option>
+                              <option value="Credit">Credit</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-12" v-if="this.form.type == 'Cash'">
+                          <div>
+                            <input type="radio" id="digital" value="1" v-model="form.credit_type">
+                            <label for="digital">Digital</label>
+
+                            <input type="radio" id="cash" value="2" v-model="form.credit_type">
+                            <label for="cash">Cash</label>
+                                                      
+                            <input type="radio" id="bank" value="3" v-model="form.credit_type">
+                            <label for="bank">Bank/Cheque</label>
+                          </div>
                         </div>
                         <div class="form-group col-md-12">
                           <label for="description">Description<code></code></label>
@@ -112,7 +131,7 @@
                     <div class="callout callout-success">
                       <h5>Supplier Name : {{ form.supplier_name }}</h5>
                       <h5>Item Name : {{ form.item_name }}</h5>
-                      <h5>Quantity : {{ form.quantity }}</h5>
+                      <h5>Quantity : {{ form.purchase_quantity }}</h5>
                       <h5>Amount : {{ form.amount }}</h5>
                     </div>
                   </div>
@@ -143,9 +162,10 @@ export default {
       form: new Form({
         supplier_name: '',
         item_name: '',
-        quantity: '',
+        purchase_quantity: '',
         amount: '',
         rate: '',
+        type:'',
         vat: '',
         description: '',
         date: moment(new Date()).format('YYYY-MM-DD'),
@@ -174,7 +194,7 @@ export default {
         this.calcAmtWithVat()
       }
       else {
-        this.form.amount = this.form.quantity * this.form.rate
+        this.form.amount = this.form.purchase_quantity * this.form.rate
       }
     },
     checkedVal(ev) {
@@ -187,13 +207,13 @@ export default {
       if (ev.target.checked == false) {
         this.vatSts = false
         this.form.vat = null
-        this.form.amount = this.form.quantity * this.form.rate
+        this.form.amount = this.form.purchase_quantity * this.form.rate
       }
     },
     calcAmtWithVat() {
       this.form.amount = (this.form.vat / 100) *
-        (this.form.quantity * this.form.rate) +
-        (this.form.quantity * this.form.rate)
+        (this.form.purchase_quantity * this.form.rate) +
+        (this.form.purchase_quantity * this.form.rate)
     },
     addPurchase() {
       this.state.isSending = true;

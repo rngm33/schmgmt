@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Detail;
 use App\Client;
 use App\Kista;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Response;
 
 class PaymentController extends Controller

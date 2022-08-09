@@ -21,6 +21,7 @@ export default{
 		assetsliabilities:[],
 		bankbalance:[],
 		cashbalance:[],
+		digitalbalance:[],
 		agenthaspaid:[],
 		record:[],
 		kistahasopening:[],
@@ -104,6 +105,9 @@ export default{
 		},
 		getCashBalance(state){
 			return state.cashbalance
+		},
+		getDigitalBalance(state){
+			return state.digitalbalance
 		},
 		getAgentHasPaid(state){
 			return state.agenthaspaid
@@ -308,6 +312,13 @@ export default{
 			.then((response)=>{
 				// console.log(response.data.cashbalances.data)
 				context.commit('cashbalances', [response.data.cashbalances.data,response.data.pagination])
+			})
+		},
+		allDigitalBalance(context, params){
+			axios.get("/manager/digitalbalance/"+"?page="+params[0])
+			.then((response)=>{
+				// console.log(response.data.digitalbalances.data)
+				context.commit('digitalbalances', [response.data.digitalbalances.data,response.data.pagination])
 			})
 		},
 		allRecord(context, params){
@@ -640,6 +651,9 @@ export default{
 		},
 		cashbalances(state, data){
 			return state.cashbalance = data
+		},
+		digitalbalances(state, data){
+			return state.digitalbalance = data
 		},
 		incomeexpenditures(state, data){
 			return state.incomeexpenditure = data

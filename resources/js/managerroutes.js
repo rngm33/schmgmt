@@ -27,10 +27,22 @@ import Commision from './components/Manager/agenthascommision/List.vue'
 import BankBalance from './components/Manager/bankbalance/List.vue'
 import BankBalanceNew from './components/Manager/bankbalance/New.vue'
 import BankBalanceEdit from './components/Manager/bankbalance/Edit.vue'
+import BankBalanceWalletTransfer from './components/Manager/cashbalance/WalletTransfer.vue'
+import BankBalanceBankTransfer from './components/Manager/cashbalance/BankTransfer.vue'
+import BankBalanceCashTransfer from './components/Manager/digitalbalance/CashTransfer.vue'
 
 //cash balance
 import CashBalance from './components/Manager/cashbalance/List.vue'
+import CashBalanceEdit from './components/Manager/cashbalance/Edit.vue'
+import CashBalanceWalletTransfer from './components/Manager/cashbalance/WalletTransfer.vue'
+import CashBalanceBankTransfer from './components/Manager/cashbalance/BankTransfer.vue'
 
+//digital balance
+import DigitalBalance from './components/Manager/digitalbalance/List.vue'
+import DigitalBalanceNew from './components/Manager/digitalbalance/New.vue'
+import DigitalBalanceEdit from './components/Manager/digitalbalance/Edit.vue'
+import DigitalBalanceCashTransfer from './components/Manager/digitalbalance/CashTransfer.vue'
+import DigitalBalanceBankTransfer from './components/Manager/digitalbalance/BankTransfer.vue'
 
 
 //subagent
@@ -303,16 +315,56 @@ export const routes = [
 		path:'/bankbalance/:bankbalanceid/edit',
 		component: BankBalanceEdit
 	},
+	{
+		path:'/bankbalance/:bankbalanceid/banktransfer',
+		component: BankBalanceBankTransfer
+	},
+	{
+		path:'/bankbalance/:bankbalanceid/wallettransfer',
+		component: BankBalanceWalletTransfer
+	},
+	{
+		path:'/bankbalance/:bankbalanceid/cashtransfer',
+		component: BankBalanceCashTransfer
+	},
 
 	{
 		path:'/cashbalance',
 		component: CashBalance
 	},
-	// {
-	// 	path:'/cashbalance/create',
-	// 	component: CashBalanceNew
-	// },
-	
+	{
+		path:'/cashbalance/:cashbalanceid/edit',
+		component: CashBalanceEdit
+	},
+	{
+		path:'/cashbalance/:cashbalanceid/banktransfer',
+		component: CashBalanceBankTransfer
+	},
+	{
+		path:'/cashbalance/:cashbalanceid/wallettransfer',
+		component: CashBalanceWalletTransfer
+	},
+
+	{
+		path:'/digitalbalance',
+		component: DigitalBalance
+	},
+	{
+		path:'/digitalbalance/create',
+		component: DigitalBalanceNew
+	},
+	{
+		path:'/digitalbalance/:digitalbalanceid/edit',
+		component: DigitalBalanceEdit
+	},
+	{
+		path:'/digitalbalance/:digitalbalanceid/banktransfer',
+		component: DigitalBalanceBankTransfer
+	},
+	{
+		path:'/digitalbalance/:digitalbalanceid/cashtransfer',
+		component: DigitalBalanceCashTransfer
+	},
 	{
 		path:'/agenthaspaid',
 		component: A_HasPaid

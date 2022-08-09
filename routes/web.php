@@ -133,8 +133,9 @@ Route::group(["middleware" => 'manager'], function(){
 
     //remaining
     Route::resource('/manager/remaining','Manager\RemainingController');
-
+    
     Route::get('/manager/clientlist', 'Manager\ClientListController@index');
+
     //expense
     Route::resource('/manager/expense','Manager\ExpenseController');
     Route::get('/manager/expense/status/{id}/{status}', 'Manager\ExpenseController@status');
@@ -159,6 +160,10 @@ Route::group(["middleware" => 'manager'], function(){
     //cash balance
     Route::resource('/manager/cashbalance','Manager\CashBalanceController');
     Route::get('/manager/cashbalance/status/{id}/{status}', 'Manager\CashBalanceController@status');
+
+     //digital balance
+     Route::resource('/manager/digitalbalance','Manager\DigitalBalanceController');
+     Route::get('/manager/digitalbalance/status/{id}/{status}', 'Manager\DigitalBalanceController@status');
 
     Route::resource('/manager/agenthaspaid','Manager\AHasPaidController');
     Route::resource('/manager/record','Manager\RecordController');

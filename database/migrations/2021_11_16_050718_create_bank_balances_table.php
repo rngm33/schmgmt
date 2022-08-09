@@ -15,16 +15,13 @@ class CreateBankBalancesTable extends Migration
     {
         Schema::create('bank_balances', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('kista_id');
-            $table->foreign('kista_id')->references('id')->on('kistas'); 
-            $table->unsignedBigInteger('luckydraw_id');
-            $table->foreign('luckydraw_id')->references('id')->on('lucky_draws');
+            $table->string('type'); // can be default or random
             $table->string('bank_name');
             $table->string('account_no');
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
             $table->string('description')->nullable();
-            $table->string('amount');
+            $table->string('amount')->nullable();
             $table->string('date_np',10);
             $table->string('date',10);
             $table->string('time',8);

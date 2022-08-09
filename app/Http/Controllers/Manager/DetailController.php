@@ -51,7 +51,7 @@ class DetailController extends Controller
         //                       $query->where('kista_id', $kista_id);
         //                     });
         // }
-        $posts = $posts->with('getClientInfo', 'getAgentInfo')->get();
+        $posts = $posts->with('getClientInfo', 'getAgentInfo','getVoucherInfo')->get();
         $response = [
             'kistadetails' => $posts,
         ];

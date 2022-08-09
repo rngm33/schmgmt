@@ -36,67 +36,103 @@
                   <form role="form" enctype="multipart/form-data" @submit.prevent="addBankBalance()">
                     <div class="card-body">
                       <div class="row">
-                        <div class="form-group col-md-6">
-                          <label for="luckydraw_id">Scheme<code>*</code></label>
-                          <select class="form-control" id="luckydraw_id" v-model="form.luckydraw_id" name="luckydraw_id" @change="luckydrawChange" :class="{ 'is-invalid': form.errors.has('luckydraw_id') }"> 
-                            <option disabled value="">Select one scheme</option>
-                            <option :value="luckydraw.id" v-for="luckydraw in allSelectLuckyDraws">
-                              {{luckydraw.name}}
-                            </option>
+                        <div class="form-group col-md-12">
+                          <label for="type">Type<code>*</code></label>
+                          <select class="form-control" id="type" v-model="form.type"> 
+                            <option disabled value="">Select One</option>
+                            <option value="Default">Default</option>
+                            <option value="Random">Random</option>
                           </select>
                           <has-error :form="form" field="luckydraw_id"></has-error>
                         </div>
-                        <div class="form-group col-md-6">
-                          <label for="kista_id">Kista Name<code>*</code></label>
-                          <select class="form-control" id="kista_id" name="kista_id" v-model="form.kista_id"  @change="kistaChange"> 
-                            <option value="">Select Kista</option>
-                            <option :value="kista.id" v-for="kista in getAllKista">{{kista.name}}</option>
-                          </select>
-                          <has-error :form="form" field="kista_id"></has-error>
+
+                        <div v-if="form.type == 'Default'" class="form-group col-md-12">
+                          <div class="form-group col-md-12">
+                              <label for="bank_name">Bank name<code>*</code></label>
+                              <input type="text" class="form-control" id="bank_name" placeholder="Add bank_name" v-model="form.bank_name" name="bank_name" :class="{ 'is-invalid': form.errors.has('bank_name') }" autocomplete="off">
+                              <has-error :form="form" field="bank_name"></has-error>
+                          </div>
+                          <div class="form-group col-md-12">
+                              <label for="account_no">A\C no:<code>*</code></label>
+                              <input type="text" class="form-control" id="account_no" placeholder="Add account_no" v-model="form.account_no" name="account_no" :class="{ 'is-invalid': form.errors.has('account_no') }" autocomplete="off">
+                              <has-error :form="form" field="account_no"></has-error>
+                          </div>
+                          <div class="form-group col-md-12">
+                              <label for="address">Address:</label>
+                              <input type="text" class="form-control" id="address" placeholder="Add address" v-model="form.address" name="address" :class="{ 'is-invalid': form.errors.has('address') }" autocomplete="off">
+                              <has-error :form="form" field="address"></has-error>
+                          </div>
+                          <div class="form-group col-md-12">
+                              <label for="phone">Phone:</label>
+                              <input type="text" class="form-control" id="phone" placeholder="Add phone" v-model="form.phone" name="phone" :class="{ 'is-invalid': form.errors.has('phone') }" autocomplete="off" @keypress="isNumber($event)">
+                              <has-error :form="form" field="phone"></has-error>
+                          </div>
+                          <div class="form-group col-md-12">
+                              <label for="description">Description</label>
+                              <input type="text" class="form-control" id="description" placeholder="Add description" v-model="form.description" name="description" :class="{ 'is-invalid': form.errors.has('description') }" autocomplete="off">
+                              <has-error :form="form" field="description"></has-error>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label>Date</label>
+                              <date-picker v-model="form.date" format="YYYY-MM-dd" name="date" >
+                                <template v-slot="{ inputValue, inputEvents }">
+                                  <input
+                                  class="bg-white border px-2 py-1 rounded form-control"
+                                  :value="inputValue"
+                                  v-on="inputEvents"
+                                  />
+                                </template>
+                              </date-picker>
+                              <has-error :form="form" field="date"></has-error>
+                          </div>
                         </div>
-                        <div class="form-group col-md-12">
-                          <label for="bank_name">Bank name<code>*</code></label>
-                          <input type="text" class="form-control" id="bank_name" placeholder="Add bank_name" v-model="form.bank_name" name="bank_name" :class="{ 'is-invalid': form.errors.has('bank_name') }" autocomplete="off">
-                          <has-error :form="form" field="bank_name"></has-error>
+
+                        <div v-else="form.type == 'Random'" class="form-group col-md-12">
+                          <div class="form-group col-md-12">
+                              <label for="bank_name">Bank name<code>*</code></label>
+                              <input type="text" class="form-control" id="bank_name" placeholder="Add bank_name" v-model="form.bank_name" name="bank_name" :class="{ 'is-invalid': form.errors.has('bank_name') }" autocomplete="off">
+                              <has-error :form="form" field="bank_name"></has-error>
+                          </div>
+                          <div class="form-group col-md-12">
+                              <label for="account_no">A\C no:<code>*</code></label>
+                              <input type="text" class="form-control" id="account_no" placeholder="Add account_no" v-model="form.account_no" name="account_no" :class="{ 'is-invalid': form.errors.has('account_no') }" autocomplete="off">
+                              <has-error :form="form" field="account_no"></has-error>
+                          </div>
+                          <div class="form-group col-md-12">
+                              <label for="address">Address:</label>
+                              <input type="text" class="form-control" id="address" placeholder="Add address" v-model="form.address" name="address" :class="{ 'is-invalid': form.errors.has('address') }" autocomplete="off">
+                              <has-error :form="form" field="address"></has-error>
+                          </div>
+                          <div class="form-group col-md-12">
+                              <label for="phone">Phone:</label>
+                              <input type="text" class="form-control" id="phone" placeholder="Add phone" v-model="form.phone" name="phone" :class="{ 'is-invalid': form.errors.has('phone') }" autocomplete="off" @keypress="isNumber($event)">
+                              <has-error :form="form" field="phone"></has-error>
+                          </div>
+                          <div class="form-group col-md-12">
+                              <label for="amount">Amount<code>*</code></label>
+                              <input type="text" class="form-control" id="amount" placeholder="Add amount" v-model="form.amount" name="amount" :class="{ 'is-invalid': form.errors.has('amount') }" autocomplete="off" @keypress="isNumber($event)">
+                              <has-error :form="form" field="amount"></has-error>
+                          </div>
+                          <div class="form-group col-md-12">
+                              <label for="description">Description</label>
+                              <input type="text" class="form-control" id="description" placeholder="Add description" v-model="form.description" name="description" :class="{ 'is-invalid': form.errors.has('description') }" autocomplete="off">
+                              <has-error :form="form" field="description"></has-error>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label>Date</label>
+                              <date-picker v-model="form.date" format="YYYY-MM-dd" name="date" >
+                                <template v-slot="{ inputValue, inputEvents }">
+                                  <input
+                                  class="bg-white border px-2 py-1 rounded form-control"
+                                  :value="inputValue"
+                                  v-on="inputEvents"
+                                  />
+                                </template>
+                              </date-picker>
+                              <has-error :form="form" field="date"></has-error>
+                          </div>
                         </div>
-                        <div class="form-group col-md-12">
-                          <label for="account_no">A\C no:<code>*</code></label>
-                          <input type="text" class="form-control" id="account_no" placeholder="Add account_no" v-model="form.account_no" name="account_no" :class="{ 'is-invalid': form.errors.has('account_no') }" autocomplete="off">
-                          <has-error :form="form" field="account_no"></has-error>
-                        </div>
-                        <div class="form-group col-md-12">
-                          <label for="address">Address:</label>
-                          <input type="text" class="form-control" id="address" placeholder="Add address" v-model="form.address" name="address" :class="{ 'is-invalid': form.errors.has('address') }" autocomplete="off">
-                          <has-error :form="form" field="address"></has-error>
-                        </div>
-                        <div class="form-group col-md-12">
-                          <label for="phone">Phone:</label>
-                          <input type="text" class="form-control" id="phone" placeholder="Add phone" v-model="form.phone" name="phone" :class="{ 'is-invalid': form.errors.has('phone') }" autocomplete="off" @keypress="isNumber($event)">
-                          <has-error :form="form" field="phone"></has-error>
-                        </div>
-                        <div class="form-group col-md-12">
-                          <label for="amount">Amount<code>*</code></label>
-                          <input type="text" class="form-control" id="amount" placeholder="Add amount" v-model="form.amount" name="amount" :class="{ 'is-invalid': form.errors.has('amount') }" autocomplete="off" @keypress="isNumber($event)">
-                          <has-error :form="form" field="amount"></has-error>
-                        </div>
-                        <div class="form-group col-md-12">
-                          <label for="description">Description</label>
-                          <input type="text" class="form-control" id="description" placeholder="Add description" v-model="form.description" name="description" :class="{ 'is-invalid': form.errors.has('description') }" autocomplete="off">
-                          <has-error :form="form" field="description"></has-error>
-                        </div>
-                        <div class="form-group col-md-6">
-                          <label>Date</label>
-                          <date-picker v-model="form.date" format="YYYY-MM-dd" name="date" >
-                            <template v-slot="{ inputValue, inputEvents }">
-                              <input
-                              class="bg-white border px-2 py-1 rounded form-control"
-                              :value="inputValue"
-                              v-on="inputEvents"
-                              />
-                            </template>
-                          </date-picker>
-                          <has-error :form="form" field="date"></has-error>
-                        </div>
+
                       </div>
                     </div>
                     <!-- /.card-body -->
@@ -140,6 +176,7 @@
     data(){
       return {
         form: new Form({
+          type: '',
           bank_name:'',
           account_no:'',
           address:'',
@@ -147,8 +184,6 @@
           description:'',
           amount:'',
           date:moment(new Date()).format('YYYY-MM-DD'),
-          luckydraw_id: '',
-          kista_id: '',
         }),
         state: {
           isSending: false

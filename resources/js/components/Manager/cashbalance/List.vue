@@ -61,8 +61,10 @@
                           <span class="badge badge-warning text-danger">{{data.created_at  | formatDate}}</span>
                         </td>                        
                         <td>
-                          <a href="" class="btn btn-xs btn-outline-success"> <i class="nav-icon fas fa-money-check" title="Click to withdraw"></i></a>
-                          <a href="" class="btn btn-xs btn-outline-dark"> <i class="nav-icon fas fa-wallet" title="Transfer to wallet"></i></a>
+                          <!-- <a href="" class="btn btn-xs btn-outline-success"> <i class="nav-icon fas fa-landmark" title="Transfer to Bank"></i></a>
+                          <a href="" class="btn btn-xs btn-outline-dark"> <i class="nav-icon fas fa-wallet" title="Transfer to Wallet"></i></a> -->
+                          <router-link :to="`/cashbalance/${data.id}/banktransfer`" class="btn btn-xs btn-outline-success"><i class="nav-icon fas fa-landmark" title="Transfer to Bank"></i></router-link> 
+                          <router-link :to="`/cashbalance/${data.id}/wallettransfer`" class="btn btn-xs btn-outline-dark"><i class="nav-icon fas fa-wallet" title="Transfer to Wallet"></i></router-link> 
                           <router-link :to="`/cashbalance/${data.id}/edit`" class="btn btn-xs btn-outline-info"><i class="fas fa-pencil-alt" title="Click to edit"></i></router-link> 
                           <a href="" @click.prevent="deleteCashBalance(data.id)" class="btn btn-xs btn-outline-danger"><i class="fas fa-trash-alt" title="Click to delete"></i></a>
                         </td>
@@ -105,9 +107,8 @@ import pagination from '../../../components/PaginationComponent.vue';
     },
     computed:{
       getAllCashBalance(){
-        
         var avar = this.$store.getters.getCashBalance;
-        console.log(avar[0]);
+        // console.log(avar[0]);
         if(avar.length==2)
           this.pagination = avar[1];
         return avar[0];

@@ -17,9 +17,12 @@ class CreatePurchasesTable extends Migration
             $table->id();
             $table->string('supplier_name')->nullable();
             $table->string('item_name');
-            $table->string('quantity');
+            $table->string('purchase_quantity');
             $table->string('amount');
             $table->string('rate')->nullable();
+            $table->string('type')->nullable(); // can be cash or credit
+            $table->unsignedBigInteger('credits_type')->nullable(true);
+            $table->foreign('credits_type')->references('id')->on('credits'); // 1 for digital, 2 for cash & 3 for bank/cheque
             $table->string('description')->nullable();
             $table->string('date_np',10);
             $table->string('date',10);
@@ -29,6 +32,7 @@ class CreatePurchasesTable extends Migration
             $table->foreign('created_by')->references('id')->on('users');
             $table->integer('updated_by')->nullable();
             $table->timestamps();
+            
         });
     }
 

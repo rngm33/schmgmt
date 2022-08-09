@@ -19,7 +19,7 @@ class BankBalanceController extends Controller
     {
         $posts = BankBalance::orderBy('id','DESC')
                             ->where('created_by', Auth::user()->id);
-        $posts = $posts->with('getKista','getLuckyDraw')->paginate(25);
+        $posts = $posts->paginate(25);
         $response = [
             'pagination' => [
                 'total' => $posts->total(),
@@ -53,13 +53,13 @@ class BankBalanceController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
+            'type' => 'required',
             'bank_name' => 'required',
             'account_no' => 'required',
-            'amount' => 'required',
         ]);
         BankBalance::create([
-            'kista_id' => $request['kista_id'],
-            'luckydraw_id' => $request['luckydraw_id'],
+        
+            'type' => $request['type'],
             'bank_name' => $request['bank_name'],
             'account_no' => $request['account_no'],
             'address' => $request['address'],
@@ -114,6 +114,7 @@ class BankBalanceController extends Controller
         ]);
         $datas = BankBalance::findOrFail($id);
         $datas->update([
+            'type' => $request['type'],
             'bank_name' => $request['bank_name'],
             'account_no' => $request['account_no'],
             'address' => $request['address'],

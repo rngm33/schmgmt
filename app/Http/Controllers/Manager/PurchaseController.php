@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Purchase;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class PurchaseController extends Controller
 {
@@ -51,17 +51,20 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
+        
         $this->validate($request, [
-            'quantity' => 'required',
+            'purchase_quantity' => 'required',
             'rate' => 'required',
             'amount' => 'required',
         ]);
         Purchase::create([
             'supplier_name' => $request['supplier_name'],
             'item_name' => $request['item_name'],
-            'quantity' => $request['quantity'],
+            'purchase_quantity' => $request['purchase_quantity'],
             'rate' => $request['rate'],
             'amount' => $request['amount'],
+            'type' => $request['type'],
+            'credits_type' => $request['credits_type'],
             'description' => $request['description'],
             'date' => $request['date'],
             'date_np' => $this->helper->date_np_con_parm($request['date']),

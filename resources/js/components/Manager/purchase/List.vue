@@ -43,8 +43,10 @@
                         <th class="text-left">Supplier Name</th>
                         <th>Item Name</th>
                         <th>Description</th>
-                        <th>Quantity</th>
+                        <th>Purchase Quantity</th>
                         <th>Amount</th>
+                        <th>Payment Type</th>
+                        <th>Remaining Quantity</th>
                         <th>Status</th>
                         <th>Created At</th>
                         <th>Action</th>
@@ -56,8 +58,10 @@
                         <td class="text-left">{{data.supplier_name}}</td>
                         <td>{{data.item_name}}</td>
                         <td>{{data.description}}</td>
-                        <td>{{data.quantity}}</td>
+                        <td>{{data.purchase_quantity}}</td>
                         <td>{{data.amount}}</td>
+                        <td>{{data.type}}</td>
+                        <td>{{data.purchase_quantity}}</td>
                         <td v-if="data.is_active == '0'">Inactive <a href="javascript:void(0)" @click.prevent="PurchaseStatus(data.id, data.is_active)" title="Click to Publish"><i class="nav-icon fas fa-times-circle text-danger"></i></a></td>
                         <td v-else>Active <a href="javascript:void(0)" @click.prevent="PurchaseStatus(data.id, data.is_active)" title="Click to Unpublish"><i class="nav-icon fas fa-check-circle text-success"></i></a></td>
                         <td>

@@ -103,7 +103,7 @@ class CashBalanceController extends Controller
     }
 
     public function status($id, $avi){
-        $user = CashBalance::findOrFail($id);
+        $user = Detail::findOrFail($id);
         $user->is_active = !$avi;
         $user->save();
       }

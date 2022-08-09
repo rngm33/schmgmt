@@ -91,14 +91,14 @@
     </li>
         <li class="nav-item">
       <router-link to="/cashbalance" class="nav-link">
-        <i class="nav-icon fas fa-money-check"></i>
+        <i class="nav-icon fas fa-rupee-sign"></i>
         <p>
           Cash Balance
         </p>
       </router-link>
     </li>
         <li class="nav-item">
-      <router-link to="/digitalwallet" class="nav-link">
+      <router-link to="/digitalbalance" class="nav-link">
         <i class="nav-icon fas fa-wallet"></i>
         <p>
          Digital Wallet
