@@ -79,11 +79,42 @@
                           <input type="text" class="form-control" id="description" placeholder="Add description" v-model="form.description" name="description" :class="{ 'is-invalid': form.errors.has('description') }" autocomplete="off">
                           <has-error :form="form" field="description"></has-error>
                         </div>
+                         <div class="form-group col-md-12" v-if="this.form.type == 'Income'">
+                          <label for="type">Income Method</label>
+
+                          <div>
+                            <input type="radio" id="cash" value="Cash" v-model="form.income_type">
+                            <label for="cash">Cash</label>
+                    
+                            <input type="radio" id="digital" value="Digital" v-model="form.income_type">
+                            <label for="digital">Digital</label>
+                        
+                            <input type="radio" id="bank" value="Bank" v-model="form.income_type">
+                            <label for="bank">Bank/Cheque</label>
+                          </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                          <label for="type">Payment Method</label>
+                        </div>
+
+                        <div class="form-group col-md-12" v-if="this.form.type == 'Expenditure'">
+                            <input type="radio" id="cash" value="Cash" v-model="form.expenditure_type">
+                            <label for="cash">Cash</label>
+                    
+                            <input type="radio" id="digital" value="Digital" v-model="form.expenditure_type">
+                            <label for="digital">Digital</label>
+                        
+                            <input type="radio" id="bank" value="Bank" v-model="form.expenditure_type">
+                            <label for="bank">Bank/Cheque</label>
+                        </div>
+                       
                         <div class="form-group col-md-12">
                           <label for="amount">Amount<code>*</code></label>
                           <input type="text" class="form-control" id="amount" placeholder="Add amount" v-model="form.amount" name="amount" :class="{ 'is-invalid': form.errors.has('amount') }" autocomplete="off" @keypress="isNumber($event)">
                           <has-error :form="form" field="amount"></has-error>
                         </div>
+                       
                         <div class="form-group col-md-6">
                           <label>Date</label>
                           <date-picker v-model="form.date" format="YYYY-MM-dd" name="date" >

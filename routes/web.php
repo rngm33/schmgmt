@@ -182,6 +182,7 @@ Route::group(["middleware" => 'manager'], function(){
     Route::get('/manager/report/agent','Manager\Report\AgentController@index');
     Route::get('/manager/report/expense','Manager\Report\ExpenseReportController@index');
     Route::get('/manager/report/lotteryprize','Manager\Report\LotteryPrizeController@index');
+    Route::get('/manager/report/purchase','Manager\Report\CreditController@index');
 
     Route::get('/manager/report/purchase','Manager\Report\PurchaseController@index');
     Route::get('/manager/report/purchase/export','Manager\Report\PurchaseController@fileExport');

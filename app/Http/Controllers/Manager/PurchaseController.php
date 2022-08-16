@@ -16,6 +16,7 @@ class PurchaseController extends Controller
      */
     public function index(Request $request)
     {
+        // dd("pur");
         $posts = Purchase::orderBy('id','DESC')
                             ->where('created_by', Auth::user()->id);
         $posts = $posts->paginate(25);

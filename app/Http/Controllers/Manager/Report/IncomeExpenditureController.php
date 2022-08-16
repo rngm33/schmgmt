@@ -34,12 +34,12 @@ class IncomeExpenditureController extends Controller
 
         //bank details                            
         $bank_balance = BankBalance::orderBy('id','DESC')
-                                    ->where('luckydraw_id',$request->luckydrawid)
-                                    ->where('kista_id',$request->kistaid)
+                                    // ->where('luckydraw_id',$request->luckydrawid)
+                                    // ->where('kista_id',$request->kistaid)
                                     ->sum('amount');
         $bank_details = BankBalance::orderBy('id','DESC') 
-                                    ->where('luckydraw_id',$request->luckydrawid)
-                                    ->where('kista_id',$request->kistaid)
+                                    // ->where('luckydraw_id',$request->luckydrawid)
+                                    // ->where('kista_id',$request->kistaid)
                                     ->value('bank_name');
         $initial_opening = 0;
         $opening_amount = KistaHasOpening::where('created_by', Auth::user()->id);

@@ -65,6 +65,7 @@ class IncomeExpenditureController extends Controller
             'description' => $request['description'],
             'amount' => $request['amount'],
             'expenditure_type' => $request['expenditure_type'],
+            'income_type' => $request['income_type'],
             'date' => $request['date'],
             'date_np' => $this->helper->date_np_con_parm($request['date']),
             'time' => date("H:i:s"),

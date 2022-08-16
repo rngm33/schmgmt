@@ -50,18 +50,30 @@
             <div class="card card-info card-outline">
               <div class="card-header">
                 <div class="row">
-                  <div class="col-md">
+                  <div class="col-md-3">
                     <select class="form-control" id="luckydraw_id" v-model="luckydraw_id" @change="LuckyDrawChange">
                       <option value="">Select One Scheme</option>
                       <option :value="luckydraw.id" v-for="luckydraw in getAllLuckydraw">{{ luckydraw.name }}</option>
                     </select>
                   </div>
-                  <div class="col-md">
+                  <div class="col-md-3">
                     <select class="form-control" id="agent_id" v-model="agent_id" name="agent_id" @change="agentChange">
                       <option disabled value="">Select agent</option>
                       <option :value="agent.id" v-for="agent in getAllAgent">
                         {{ agent.name }}
                       </option>
+                    </select>
+                  </div>
+                  <div class="col-md">
+                    <select mode="range" class="form-control" id="kista_id" name="kista_id" v-model="kista_id" @change="kistaChange" is-range>
+                      <option value="">Select Kista</option>
+                      <option :value="kista.id" v-for="kista in getAllKista" placeholder="to">{{ kista.name }}</option>
+                    </select>
+                  </div>
+                  <div class="col-md">
+                    <select mode="range" class="form-control" id="kista_id" name="kista_id" v-model="kista_id" @change="kistaChange" is-range>
+                      <option value="">Select Kista</option>
+                      <option :value="kista.id" v-for="kista in getAllKista" placeholder="from">{{ kista.name }}</option>
                     </select>
                   </div>
                   <!-- <div class="col-md">
@@ -435,6 +447,12 @@ export default {
     print() {
       this.$htmlToPaper('printMe');
     },
+    selecttoKista: function(toKista) {
+        return this.to_kista = toKista;
+      },
+      selectfromKista: function(fromKista) {
+        return this.from_kista = fromKista;
+      }
 
   }
 }

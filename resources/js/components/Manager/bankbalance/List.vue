@@ -75,7 +75,7 @@
                         </td>
                         <td v-if="data.type == 'Random'">
                           <!-- <a href="" class="btn btn-xs btn-outline-success"> <i class="nav-icon fas fa-landmark" title="Transfer to Bank"></i></a> -->
-                          <router-link :to="`/bankbalance/${data.id}/banktransfer`" class="btn btn-xs btn-outline-success"><i class="nav-icon fas fa-landmark" title="Transfer to Bank"></i></router-link> 
+                          <router-link :to="`/bankbalance/${data.id}/banktransfer`" class="btn btn-xs btn-outline-success"><i class="nav-icon fas fa-landmark" title="Transfer to Default Bank"></i></router-link> 
                           <router-link :to="`/bankbalance/${data.id}/edit`" class="btn btn-xs btn-outline-info"><i class="fas fa-pencil-alt" title="Click to edit"></i></router-link> 
                           <a href="" @click.prevent="deleteBankBalance(data.id)" class="btn btn-xs btn-outline-danger"><i class="fas fa-trash-alt" title="Click to delete"></i></a>
                         </td>

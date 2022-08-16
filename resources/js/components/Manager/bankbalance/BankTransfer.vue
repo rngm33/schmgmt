@@ -55,7 +55,7 @@
                                                     <div class="row">
                                                         <!-- /.card-body -->
                                                         <div class="card-footer">
-                                                            <button type="submit" class="btn btn-primary" :disabled="state.isSending">{{state.isSending ? "Loading..." : "Transfer To Bank"}}</button>
+                                                            <button type="submit" class="btn btn-primary" :disabled="state.isSending">{{state.isSending ? "Loading..." : "Transfer To Default Bank"}}</button>
                                                         </div>
                                                     </div>
 

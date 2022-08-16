@@ -37,12 +37,15 @@
                     <div class="card-body">
                       <div class="row">
                         <!-- <input type="hidden" class="form-control" id="name" v-model="form.kistaid" name="name"> -->
-                        
-                        <div class="form-group col-md-12">
-                          <label for="lottery_prize">Scheme Prize<code>*</code></label>
-                          <input type="text" class="form-control" id="lottery_prize" placeholder="Add prize" v-model="form.lottery_prize" name="lottery_prize" :class="{ 'is-invalid': form.errors.has('lottery_prize') }" autocomplete="off">
-                          <has-error :form="form" field="lottery_prize"></has-error>
-                        </div>
+                          <div class="col-md">
+                            <label for="lottery_prize">Prize<code>*</code></label>
+                            <select class="form-control" id="lottery_prize" v-model="lottery_prize" name="lottery_prize"> 
+                              <option disabled value="">Select one prize</option>
+                              <option value="" v-for="(data) in getAllPurchase">
+                                {{data.item_name}}
+                              </option>
+                            </select>
+                          </div>
                       </div>
                     </div>
                     <!-- /.card-body -->
@@ -100,10 +103,22 @@
       //   this.form.fill(response.data.details)
       // })
       // this.$Progress.finish()
+      this.fetchPosts();
     },
     computed:{
+      getAllPurchase(){
+        var avar = this.$store.getters.getPurchase;
+        if(avar.length==2)
+          this.pagination = avar[1];
+        return avar[0];
+      }
     },
     methods:{
+      fetchPosts(){
+        this.$Progress.start()
+        this.$store.dispatch("allPurchase", [this.pagination.current_page]);
+        this.$Progress.finish()
+      },
      addPrize(){
       this.state.isSending = true;
       this.form.post('/manager/detail/prize')

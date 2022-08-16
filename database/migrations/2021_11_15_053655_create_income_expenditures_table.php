@@ -16,13 +16,14 @@ class CreateIncomeExpendituresTable extends Migration
         Schema::create('income_expenditures', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('kista_id');
-            $table->foreign('kista_id')->references('id')->on('kistas'); 
+            $table->foreign('kista_id')->references('id')->on('kistas')->nullable(); 
             $table->unsignedBigInteger('luckydraw_id');
-            $table->foreign('luckydraw_id')->references('id')->on('lucky_draws');
+            $table->foreign('luckydraw_id')->references('id')->on('lucky_draws')->nullable();
             $table->string('type'); //can be income or expenditure
             $table->string('topic');
             $table->string('description')->nullable();
             $table->integer('expenditure_type')->nullable(); // 1 for direct and 2 for indirect
+            $table->integer('income_type');
             $table->string('amount');
             $table->string('date_np',10);
             $table->string('date',10);

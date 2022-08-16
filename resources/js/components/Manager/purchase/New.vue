@@ -87,13 +87,13 @@
                         </div>
                         <div class="form-group col-md-12" v-if="this.form.type == 'Cash'">
                           <div>
-                            <input type="radio" id="digital" value="1" v-model="form.credit_type">
+                            <input type="radio" id="digital" value="Digital" v-model="form.cash_type">
                             <label for="digital">Digital</label>
 
-                            <input type="radio" id="cash" value="2" v-model="form.credit_type">
+                            <input type="radio" id="cash" value="Cash" v-model="form.cash_type">
                             <label for="cash">Cash</label>
                                                       
-                            <input type="radio" id="bank" value="3" v-model="form.credit_type">
+                            <input type="radio" id="bank" value="Bank/Cheque" v-model="form.cash_type">
                             <label for="bank">Bank/Cheque</label>
                           </div>
                         </div>

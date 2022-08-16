@@ -111,6 +111,7 @@ import AgentReport from './components/Manager/report/agent/List.vue'
 import ExpenseReport from './components/Manager/report/expense/List.vue'
 import LotteryPrizeReport from './components/Manager/report/lotteryprize/List.vue'
 import PurchaseReport from './components/Manager/report/purchase/List.vue'
+import CreditReport from './components/Manager/report/credit/List.vue'
 import IncomeExpenditureReport from './components/Manager/report/incomeexpenditure/List.vue'
 import AssetsLiabilitiesReport from './components/Manager/report/assetsliabilities/List.vue'
 import ExpenditureReport from './components/Manager/report/expenditure/List.vue'
@@ -446,6 +447,11 @@ export const routes = [
 	{
 		path:'/report/purchase',
 		component: PurchaseReport,
+		meta: { bodyClass: 'sidebar-collapse' },
+	},
+	{
+		path:'/report/credit',
+		component: CreditReport,
 		meta: { bodyClass: 'sidebar-collapse' },
 	},
 	{

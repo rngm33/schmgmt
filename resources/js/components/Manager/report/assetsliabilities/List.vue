@@ -69,6 +69,26 @@
                               {{data.type}}
                             </td>                       
                           </tr>
+
+                          <tr v-for="(listing,index) in data.get_assets_liabitities_type_many" :key="listing.id">
+                            <td v-if="data.type=='Current'">Stock/Inventory</td>
+                            <td v-if="data.type=='Current'">{{ listing.amount }}</td>
+                          </tr>
+
+                          <tr v-for="(listing,index) in data.get_assets_liabitities_type_many" :key="listing.id">
+                            <td v-if="data.type=='Current'">Bank/Cheque</td>
+                            <td v-if="data.type=='Current'">{{ listing.amount }}</td>
+                          </tr>
+
+                          <tr v-for="(listing,index) in data.get_assets_liabitities_type_many" :key="listing.id">
+                            <td v-if="data.type=='Current'">Wallet</td>
+                            <td v-if="data.type=='Current'">{{ listing.amount }}</td>
+                          </tr>
+
+                          <tr v-for="(listing,index) in data.get_assets_liabitities_type_many" :key="listing.id">
+                            <td v-if="data.type=='Current'">Cash</td>
+                            <td v-if="data.type=='Current'">{{ listing.amount }}</td>
+                          </tr>
                           
                           <tr v-for="(listing,index) in data.get_assets_liabitities_type_many" :key="listing.id">
                             <td>{{ listing.topic }}</td>
@@ -81,7 +101,7 @@
                         </tbody>
                         <tfoot>
                           <tr>
-                            <th>Total</th>
+                            <th>Assets Total</th>
                             <th>{{ totalAsset }}</th>
                           </tr>
                         </tfoot>
@@ -114,7 +134,7 @@
                         </tbody>
                         <tfoot>
                           <tr>
-                            <th>Total</th>
+                            <th>Liabilities Total</th>
                             <th>{{ totalLiabilities }}</th>
                           </tr>
                         </tfoot>
@@ -153,6 +173,7 @@
           
           assetsList:'',
           assetsListing:'',
+          bank_balance:'',
           liabilitiesListing:'',
           total_assets:'',
           total_liabilities:'',

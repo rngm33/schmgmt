@@ -32,6 +32,7 @@ export default{
 		expensereport:[],
 		lotteryprizereport:[],
 		purchasereport:[],
+		creditreport:[],
 		incomeexpenditurereport:[],
 		assetsliabilitiesreport:[],
 		expenditurereport:[],
@@ -144,6 +145,9 @@ export default{
 		},
 		getPurchaseReport(state){
 			return state.purchasereport
+		},
+		getCreditReport(state){
+			return state.creditreport
 		},
 		getIncomeExpenditureReport(state){
 			return state.incomeexpenditurereport
@@ -453,6 +457,19 @@ export default{
 																response.data.liabilities_data,
 																response.data.to_date,
 																response.data.from_date])
+				})	
+		},
+		allCreditReport(context, params){
+			// console.log(params);
+			// sumit
+			axios.get("/manager/report/credit/"+"?page="+params[0]+"&date1="+params[1]+"&date2="+params[2])
+				.then((response)=>{
+					// console.log(response);
+					context.commit('creditreports', [response.data.creditreports.data,
+						response.data.pagination,
+						response.data.totals,
+						response.data.to_date,
+						response.data.from_date])
 				})	
 		},
 		// allIncomeExpenditureReport(context, params){

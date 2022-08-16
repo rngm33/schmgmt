@@ -96,7 +96,7 @@
                         </tbody>
                         <tfoot v-if="luckydraw_id && kista_id">
                           <tr>
-                            <td><strong>Total:</strong></td>
+                            <td><strong>Total Income:</strong></td>
                             <td>{{ total1 }}</td>
                           </tr>
                           <tr>
@@ -116,7 +116,7 @@
                         </thead>
                         <tbody v-if="luckydraw_id && kista_id">
                           <tr>
-                            <td>Deposited in Bank</td>
+                            <td>Agent Salary</td>
                             <td>{{ bank_balance }}</td>
                           </tr>
                           <tr v-for="(data, index) in getAllExpenditure" :key="data.id">
@@ -126,8 +126,16 @@
                         </tbody>
                         <tfoot v-if="luckydraw_id && kista_id">
                           <tr>
-                            <td><strong>Total:</strong></td>
+                            <td><strong>Total Expenditure:</strong></td>
                             <td>{{ total2 }}</td>
+                          </tr>
+                          <tr>
+                            <td>Bank Balance</td>
+                            <td>{{ bank_balance }}</td>
+                          </tr>
+                          <tr>
+                            <td>Wallet Balance</td>
+                            <td>{{ wallet_balance }}</td>
                           </tr>
                           <tr>
                             <td>Cash Balance:</td>
@@ -183,7 +191,6 @@ export default {
       bank_balance: '',
       opening_balance: '',
       cash_balance: '',
-      income_total: '',
       expenditure_total: '',
       grandtotal2: '',
       auth_name: '',
@@ -214,6 +221,7 @@ export default {
     },
     getAllIncome() {
       var avar = this.$store.getters.getIncomeExpenditureReport;
+      // console.log(avar[0]);
       this.latest_income = avar[6];
       this.opening_balance = avar[7];
       this.income_total = avar[2];
@@ -226,9 +234,11 @@ export default {
     },
     getAllExpenditure() {
       var avar = this.$store.getters.getIncomeExpenditureReport;
+      // console.log(avar[4]);
       this.bank_balance = avar[4];
+      this.wallet_balance = avar[7];
       this.expenditure_total = avar[3];
-      this.total2 = this.bank_balance + this.expenditure_total;
+      this.total2 = this.expenditure_total;
       this.cash_balance = this.total1 - this.total2;
       this.grandtotal2 = this.cash_balance + this.total2;
       return avar[1];

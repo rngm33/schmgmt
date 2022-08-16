@@ -20,6 +20,7 @@ class PurchaseController extends Controller
      */
     public function index(Request $request)
     {
+       
         $posts = Purchase::orderBy('id','DESC')->where('created_by', Auth::user()->id);
         $totalamount = Purchase::where('created_by', Auth::user()->id);
         if(($request->has('date1')) || ($request->has('date2')))
