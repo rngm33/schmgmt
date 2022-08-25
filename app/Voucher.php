@@ -16,5 +16,11 @@ class Voucher extends Model
     }
     public  function getClientDetail(){
         return $this->belongsTo(Client::class,'client_id');
-    } 
+    }
+    public  function getClientInfo(){
+        return $this->belongsTo(Client::class,'client_id')->select('id','name','address','phone','serial_no','is_leave');
+    }
+    public function getVoucherInfo(){
+        return $this->belongsTo(Voucher::class,'voucher_id')->select('id','amt_to_be_paid','amount_paid','payment_type');
+    }
 }

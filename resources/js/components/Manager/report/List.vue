@@ -160,12 +160,22 @@
           </div>
         </router-link>
       </div>
-            <div class="col-lg-3 col-6">
+      <div class="col-lg-3 col-6">
         <router-link to="/report/credit">
           <div class="small-box bg-success">
             <div class="inner">
               <h3>{{credit_count}}</h3>
               <p>Credit Report</p>
+            </div>
+          </div>
+        </router-link>
+      </div>
+      <div class="col-lg-3 col-6">
+        <router-link to="/report/paymentcollectionreport">
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3>{{feepayment_count}}</h3>
+              <p>Fee Payment Report</p>
             </div>
           </div>
         </router-link>
@@ -195,6 +205,7 @@ export default{
           credit_count: 0,
           member_count:'',
           voucher_count:0,
+          feepayment_count:0,
           top_item_customer:0,
           stock_level_count:0,
         }

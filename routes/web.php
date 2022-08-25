@@ -110,7 +110,7 @@ Route::group(["middleware" => 'manager'], function(){
     //commision
     Route::resource('/manager/agent/commision','Manager\AgentHasController');
 
-    Route::get('/manager/agent/add/client/{id}', 'Manager\ClientController@clientlist');
+    Route::get('/manager/agent/add/client/{id}/{word?}', 'Manager\ClientController@clientlist');
     Route::resource('/manager/client','Manager\ClientController');
     Route::get('/manager/agent_name/{id}', 'Manager\ClientController@agent_name');
     Route::get('/manager/client/status/{id}/{status}', 'Manager\ClientController@status');
@@ -183,6 +183,7 @@ Route::group(["middleware" => 'manager'], function(){
     Route::get('/manager/report/expense','Manager\Report\ExpenseReportController@index');
     Route::get('/manager/report/lotteryprize','Manager\Report\LotteryPrizeController@index');
     Route::get('/manager/report/purchase','Manager\Report\CreditController@index');
+    Route::get('/manager/report/paymentcollectionreport','Manager\Report\VoucherController@getPaymentReport');
 
     Route::get('/manager/report/purchase','Manager\Report\PurchaseController@index');
     Route::get('/manager/report/purchase/export','Manager\Report\PurchaseController@fileExport');

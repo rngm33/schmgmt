@@ -8,6 +8,10 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Voucher;
+use App\LuckyDraw;
+use App\Kista;
+use App\Agent;
+
 
 class VoucherController extends Controller
 {
@@ -105,6 +109,8 @@ class VoucherController extends Controller
         // }
         // return $zeros.$last_number;
     }
+
+    
 
     public static function convertNo($number)
     {

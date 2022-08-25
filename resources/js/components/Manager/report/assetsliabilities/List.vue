@@ -64,30 +64,23 @@
                           </tr>
                         </thead>
                         <tbody v-for="(data,index) in getAssetsReports" :key="data.id">
-                          <tr v-if="data.get_assets_liabitities_type_many.length">
+                          <tr v-if="data.get_assets_liabitities_type_many.length && data.type!='Current'">
+                            <td colspan="2" class="bg-success-light">
+                              {{data.type}}
+                            </td>                       
+                          </tr>
+                          <tr v-if="data.type=='Current'">
                             <td colspan="2" class="bg-success-light">
                               {{data.type}}
                             </td>                       
                           </tr>
 
-                          <tr v-for="(listing,index) in data.get_assets_liabitities_type_many" :key="listing.id">
-                            <td v-if="data.type=='Current'">Stock/Inventory</td>
-                            <td v-if="data.type=='Current'">{{ listing.amount }}</td>
-                          </tr>
-
-                          <tr v-for="(listing,index) in data.get_assets_liabitities_type_many" :key="listing.id">
-                            <td v-if="data.type=='Current'">Bank/Cheque</td>
-                            <td v-if="data.type=='Current'">{{ listing.amount }}</td>
-                          </tr>
-
-                          <tr v-for="(listing,index) in data.get_assets_liabitities_type_many" :key="listing.id">
-                            <td v-if="data.type=='Current'">Wallet</td>
-                            <td v-if="data.type=='Current'">{{ listing.amount }}</td>
-                          </tr>
-
-                          <tr v-for="(listing,index) in data.get_assets_liabitities_type_many" :key="listing.id">
-                            <td v-if="data.type=='Current'">Cash</td>
-                            <td v-if="data.type=='Current'">{{ listing.amount }}</td>
+                          <tr v-if="data.type=='Current'"  v-for="(stocks,key) in data.get_assets_stock_type_many" :key="stocks.id">
+                            <td>{{ stocks.sub_type }}</td>
+                            <td v-if="stocks.sub_type=='Stock/Inventory'">1</td>
+                            <td v-if="stocks.sub_type=='Bank/Cheque'">2</td>
+                            <td v-if="stocks.sub_type=='Wallet'">3</td>
+                            <td v-if="stocks.sub_type=='Cash'">4</td>
                           </tr>
                           
                           <tr v-for="(listing,index) in data.get_assets_liabitities_type_many" :key="listing.id">
@@ -122,6 +115,11 @@
                               {{data1.type}}
                             </td>                       
                           </tr>
+
+                          <tr v-if="data1.type=='Current'">
+                            <td></td>
+                          </tr>
+
                           
                           <tr v-for="(listing1,index) in data1.get_assets_liabitities_type_many" :key="listing1.id">
                             <td>{{ listing1.topic }}</td>

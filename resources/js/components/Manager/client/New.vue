@@ -100,7 +100,7 @@
                       <h5>Name : {{form.name}}</h5>
                       <h5>Address : {{form.address}}</h5>
                       <h5>Phone : {{form.phone}}</h5>
-                      <h5>Lottery No : {{form.lottery_no}}</h5>
+                      <h5>Serial No : {{form.serial_no}}</h5>
                     </div>
                   </div>
                 </div>

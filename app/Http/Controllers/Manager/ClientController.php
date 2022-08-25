@@ -111,6 +111,7 @@ class ClientController extends Controller
                 // 'serial_no' => 'required|integer|between:1,6999',
             ]);
             $agents = Agent::find($request->agent_id);
+            
             Client::create([
                 'agent_id' => $agents->id,
                 'name' => $request['name'],
@@ -129,6 +130,7 @@ class ClientController extends Controller
     }
     public function store(Request $request)
     {
+        
         $name = $request->serial_no;
         $booking_data = Booking::where('booked_serialno', 'LIKE',"%{$name}%")
                             ->where('is_active','1')
@@ -138,6 +140,7 @@ class ClientController extends Controller
                             ->where('is_active','1')
                             ->where('agent_id',$request->agent_id)
                             ->value('id');
+        dd($booking_id);
 
         $request['slug'] = $this->helper->slug_converter($request['serial_no']).'-'.Auth::user()->id;
         $this->validate($request, [
@@ -154,6 +157,7 @@ class ClientController extends Controller
             'name' => $request['name'],
             'address' => $request['address'],
             'phone' => $request['phone'],
+       
             'serial_no' => $request['serial_no'],
             'slug' =>  $this->helper->slug_converter($request['serial_no']).'-'.Auth::user()->id,
             'date_np' => $this->helper->date_np_con_parm($request['date']),

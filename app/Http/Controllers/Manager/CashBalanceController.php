@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Detail;
+use App\Voucher;
 use Illuminate\Support\Facades\Auth;
 
 class CashBalanceController extends Controller
@@ -19,7 +20,7 @@ class CashBalanceController extends Controller
         $posts = Detail::orderBy('id','DESC')
         ->where('created_by', Auth::user()->id)
         ->where('payment_type','3')
-        ->with('getClientInfo');
+        ->with('getVoucherInfo');
         $posts = $posts->paginate(25);
         
         $response = [

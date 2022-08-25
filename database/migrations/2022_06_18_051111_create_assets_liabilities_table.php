@@ -18,7 +18,7 @@ class CreateAssetsLiabilitiesTable extends Migration
             $table->string('type'); //can be assets or liabilities
             $table->string('topic');
             $table->string('description')->nullable();
-             $table->unsignedBigInteger('assets_type')->nullable(true);
+            $table->unsignedBigInteger('assets_type')->nullable(true);
             $table->foreign('assets_type')->references('id')->on('assets'); // 1 for current,2 for fixed, 3 for tangible and 4 for intangible
             /*$table->unsignedBigInteger('liabilities_type')->nullable(true);
             $table->foreign('liabilities_type')->references('id')->on('liabilities');*/ // 1 for current,2 for long-term and 3 for contigent

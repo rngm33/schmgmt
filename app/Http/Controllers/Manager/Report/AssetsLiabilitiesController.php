@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Manager\Report;
 
 use App\AssetsLiabilities;
 use App\Assets;
+use App\Credit;
+use App\AssetStock;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,7 +25,12 @@ class AssetsLiabilitiesController extends Controller
                                         ->whereBetween('date',[$request->date1,$request->date2])
                                         ->orderBy('assets_type');
                             }])
+                            ->with( 'getAssetsStockTypeMany')
+                            // ->join('asset_stocks', 'assets.id', 'asset_stocks.assets_id')
+                            // ->get(['assets.*' , 'asset_stocks.sub_type']);
                             ->get();
+
+                // dd($data_assets);
 
         $data_liabilities = Assets::where('category','Liabilities')
                             ->with(['getAssetsLiabititiesTypeMany' => function ($query) use ($request)  {
@@ -32,6 +39,9 @@ class AssetsLiabilitiesController extends Controller
                                          ->orderBy('assets_type');
                             }])
                             ->get();
+
+
+
 
         $response = [
           'assets_data' => $data_assets,

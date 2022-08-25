@@ -115,6 +115,7 @@ import CreditReport from './components/Manager/report/credit/List.vue'
 import IncomeExpenditureReport from './components/Manager/report/incomeexpenditure/List.vue'
 import AssetsLiabilitiesReport from './components/Manager/report/assetsliabilities/List.vue'
 import ExpenditureReport from './components/Manager/report/expenditure/List.vue'
+import PaymentCollectionReport from './components/Manager/report/paymentcollection/List.vue'
 import RecordReport from './components/Manager/report/record/List.vue'
 import PreviewReport from './components/Manager/report/preview/List.vue'
 import MemberReport from './components/Manager/report/member/List.vue'
@@ -467,6 +468,11 @@ export const routes = [
 	{
 		path:'/report/expenditure',
 		component: ExpenditureReport,
+		meta: { bodyClass: 'sidebar-collapse' },
+	},
+	{
+		path:'/report/paymentcollectionreport',
+		component: PaymentCollectionReport,
 		meta: { bodyClass: 'sidebar-collapse' },
 	},
 	{

@@ -10,6 +10,7 @@ export default{
 		agent:[],
 		subagent:[],
 		agentcommision:[],
+		paymentreport:[],
 		detail:[],
 		payment:[],
 		kistadetail:[],
@@ -148,6 +149,9 @@ export default{
 		},
 		getCreditReport(state){
 			return state.creditreport
+		},
+		getPaymentReport(state){
+			return state.paymentreport
 		},
 		getIncomeExpenditureReport(state){
 			return state.incomeexpenditurereport
@@ -455,6 +459,7 @@ export default{
 					// console.log(response);
 					context.commit('assetsliabilitiesreports', [response.data.assets_data,
 																response.data.liabilities_data,
+																response.assets_stock_data,
 																response.data.to_date,
 																response.data.from_date])
 				})	
@@ -472,6 +477,14 @@ export default{
 						response.data.from_date])
 				})	
 		},
+		allPaymentCollection(context,params) {
+			axios.get("/manager/report/paymentcollectionreport/" + "?kistaid=" +params[0] +
+			 "&luckydrawid=" + params[1]+ "&type=" + params[2]+ "&paymentid=" + params[3])
+			  .then((response) => {
+				context.commit('paymentcollectionreport', [response.data,response.data.respo,response.data.respodef])
+			
+			  })
+		  },
 		// allIncomeExpenditureReport(context, params){
 		// 	// console.log(params);
 		// 	axios.get("/manager/report/incomeexpenditure/"+"?page="+params[0]+"&kistaid="+params[1]+"&luckydrawid="+params[2]+"&date1="+params[3]+"&date2="+params[4])
@@ -726,6 +739,10 @@ export default{
 		vouchersreport(state, data){
 			return state.voucherreport = data
 		},
+		paymentcollectionreport(state, data){
+			return state.paymentreport = data
+		},
+
 		
 	}
 }

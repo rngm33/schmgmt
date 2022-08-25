@@ -17,4 +17,9 @@ class Assets extends Model
         return $this->hasMany(AssetsLiabilities::class,'assets_type');
     }
 
+    
+    public  function getAssetsStockTypeMany(){
+        return $this->hasMany(AssetStock::class,'assets_id','id');
+    }
+
 }

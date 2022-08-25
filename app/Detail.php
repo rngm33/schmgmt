@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Detail extends Model
 {
     protected $fillable = [
-        'client_id','luckydraw_id','kista_id','agent_id','lottery_status','amount','created_by','updated_by','is_active','date_np','date','time','remaining','is_remained','rpaid_date','rpaid_date_np','lottery_prize'
+        'client_id','luckydraw_id','kista_id','agent_id','voucher_id','lottery_status','amount','created_by','updated_by','is_active','date_np','date','time','remaining','is_remained','rpaid_date','rpaid_date_np','lottery_prize'
     ];
 
     public  function getClientInfo(){

@@ -52,6 +52,149 @@ class VoucherController extends Controller
         ]);
     }
 
+    
+    // Report->VoucherController
+// ---------------------------------------------------------------------------------
+ public function getPaymentReport(Request $request)
+ {
+     // dd($request->all());
+     $paymentid = $request->paymentid;
+     $type = $request->type;
+     $kistaid = $request->kistaid;
+     $luckydrawid = $request->luckydrawid;
+     $luckydraw_name=LuckyDraw::where('id',$luckydrawid)->first()->name;
+     $kista_name=Kista::where('id',$kistaid)->first()->name;
+     $defid = Agent::where('name', 'default')->first()->id;
+
+     $ag_amt = Detail::where('agent_id', '!=', $defid)
+     ->where('luckydraw_id',$luckydrawid)
+     ->where('kista_id',$kistaid)->get();
+     $def_amt = Detail::where('agent_id', '=', $defid)
+         ->where('luckydraw_id',$luckydrawid)
+         ->where('kista_id',$kistaid)->get();
+             if($type==null || $type=='Select Type'){
+                 if($paymentid==null){
+                     $wallet_amt_ag= $ag_amt->where('payment_type',1)->sum('amount');
+                     $bank_amt_ag= $ag_amt->where('payment_type',2)->sum('amount');
+                     $cash_amt_ag= $ag_amt->where('payment_type',3)->sum('amount');
+
+                     $wallet_amt_def= $def_amt->where('payment_type',1)->sum('amount');
+                     $bank_amt_def= $def_amt->where('payment_type',2)->sum('amount');
+                     $cash_amt_def= $def_amt->where('payment_type',3)->sum('amount');
+
+
+                     $tot_wallet=$wallet_amt_ag + $wallet_amt_def;
+                     $tot_bank= $bank_amt_ag + $bank_amt_def;
+                     $tot_cash=$cash_amt_ag + $cash_amt_def;
+
+                     $amt_ag=[$tot_wallet,$tot_bank,$tot_cash];
+                     // $amt_def=[$wallet_amt_def,$bank_amt_def,$cash_amt_def];
+
+                     $gtotal=$amt_ag[0]+$amt_ag[1]+$amt_ag[2];
+                     // $gtotal_def=$amt_def[0]+$amt_def[1]+$amt_def[2];
+
+                     return response()->json([
+                         'respo' => $amt_ag,
+                         // 'respodef' => $amt_def,
+                         'status' => true,
+                         'agsts' =>true,
+                         'gtotal' => $gtotal,
+                         // 'gtotaldef' => $gtotal_def,
+                         'ptype' => null,
+                         'atype' => $type,
+                         'luckydraw_name' => $luckydraw_name,
+                         'kista_name' => $kista_name,
+                     ]);
+                 }
+                 else{
+                     $amt_ag= $ag_amt->where('payment_type','=',$paymentid)->sum('amount');
+                     $amt_def= $def_amt->where('payment_type','=',$paymentid)->sum('amount');
+
+                     return response()->json([
+                         'respo' => $amt_ag + $amt_def,
+                         // 'respodef' => $amt_def,
+                         'status' => false,
+                         'agsts' =>true,
+                         'atype' => $type,
+                         'ptype' => $paymentid,
+                         'luckydraw_name' => $luckydraw_name,
+                         'kista_name' => $kista_name,
+                     ]);
+                 }  
+             }
+
+                     if ($type == "Agent") {
+
+                         if($paymentid==null){
+                             $wallet_amt= $ag_amt->where('payment_type',1)->sum('amount');
+                             $bank_amt= $ag_amt->where('payment_type',2)->sum('amount');
+                             $cash_amt= $ag_amt->where('payment_type',3)->sum('amount');
+                 
+                             $amt=[$wallet_amt,$bank_amt,$cash_amt];
+                             $gtotal=$amt[0]+$amt[1]+$amt[2];
+                             return response()->json([
+                                 'respo' => $amt,
+                                 'status' => true,
+                                 'agsts' =>false,
+                                 'gtotal' => $gtotal,
+                                 'ptype' => null,
+                                 'atype' => $type,
+                                 'luckydraw_name' => $luckydraw_name,
+                                 'kista_name' => $kista_name,
+                             ]);
+                         }
+                     else{
+                         $amt= $ag_amt->where('payment_type','=',$paymentid)->sum('amount');
+                         return response()->json([
+                             'respo' => $amt,
+                             'status' => false,
+                             'agsts' =>false,
+                             'atype' => $type,
+                             'ptype' => $paymentid,
+                             'luckydraw_name' => $luckydraw_name,
+                             'kista_name' => $kista_name,
+                         ]);
+                     }  
+                     }
+
+                     if ($type == "Default") {
+                         $ag_amt = Detail::where('agent_id', '=', $defid)
+                         ->where('luckydraw_id',$luckydrawid)
+                         ->where('kista_id',$kistaid)->get();
+                         if($paymentid==null){
+                             $wallet_amt= $ag_amt->where('payment_type',1)->sum('amount');
+                             $bank_amt= $ag_amt->where('payment_type',2)->sum('amount');
+                             $cash_amt= $ag_amt->where('payment_type',3)->sum('amount');
+                 
+                             $amt=[$wallet_amt,$bank_amt,$cash_amt];
+                             $gtotal=$amt[0]+$amt[1]+$amt[2];
+
+                             return response()->json([
+                                 'respo' => $amt,
+                                 'gtotal' => $gtotal,
+                                 'status' => true,
+                                 'agsts' =>false,
+                                 'ptype' => null,
+                                 'atype' => $type,
+                                 'luckydraw_name' => $luckydraw_name,
+                                 'kista_name' => $kista_name,
+                             ]);
+                         }
+                         else{
+                             $amt= $ag_amt->where('payment_type','=',$paymentid)->sum('amount');
+                             return response()->json([
+                                 'respo' => $amt,
+                                 'status' => false,
+                                 'atype' => $type,
+                                 'agsts' =>false,
+                                 'ptype' => $paymentid,
+                                 'luckydraw_name' => $luckydraw_name,
+                                 'kista_name' => $kista_name,
+                             ]);
+                         }
+                     }
+ }
+
     public function getVoucherReport(Request $request)
     {
         // dd($request->all());

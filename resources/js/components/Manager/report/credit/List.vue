@@ -69,16 +69,15 @@
                                 </thead>
                                 <tbody>
                                   <tr v-for="(data, index) in getAllPurchase" :key="data.id">
-                                    <td>{{ index + 1 }}</td>
-                                    <td class="text-left">{{ data.supplier_name }}</td>
-                                    <td>{{ data.amount }}</td>
-                                    <td>
-                                      <input type="button" value="Pay">
+                                    <td v-if="data.type == 'Credit'">{{ index + 1 }}</td>
+                                    <td v-if="data.type == 'Credit'" class="text-left">{{ data.supplier_name }}</td>
+                                    <td v-if="data.type == 'Credit'">{{ data.amount }}</td>
+                                    <td v-if="data.type == 'Credit'">
+                                    <input type="button" value="Pay">
                                     </td>
-                                    <td>
+                                    <td v-if="data.type == 'Credit'">
                                       <span class="badge badge-warning">{{ data.date_np }}</span>
                                     </td>
-
                                   </tr>
                                 </tbody>
 
@@ -86,7 +85,6 @@
                               <pagination v-if="pagination.last_page > 1" :pagination="pagination" :offset="5" @paginate="fetchPosts"></pagination>
                             </div>
                   </div>
-
                   </div>
                 </div>
               </div>
@@ -201,9 +199,13 @@ export default {
       this.form.file = file;
     },
 
+
   }
 }
 </script>
 
 <style scoped>
+.notShown {
+  visibility: hidden !important;
+}
 </style>
