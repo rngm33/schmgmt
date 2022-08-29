@@ -8,10 +8,6 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Voucher;
-use App\LuckyDraw;
-use App\Kista;
-use App\Agent;
-
 
 class VoucherController extends Controller
 {
@@ -21,6 +17,10 @@ class VoucherController extends Controller
         $voucher = new Voucher();
         $amtpaid=$request->amtpaid;
         $cmsAg=null;
+
+        if($amtpaid==0){
+        return ['status' => 'failed'];
+        }
         $commision = AgentHasCommision::where([
             ['agent_id',$request->agent_id],
             ['kista_id',$request->kista_id],
@@ -54,7 +54,6 @@ class VoucherController extends Controller
             $cmsAg= ($request->amtpaid - $calcAmt);
 
         $vccount=Voucher::count();
-            //    dd($calcAmt);
 
         $recp= '00'+ $vccount;
 
@@ -62,15 +61,31 @@ class VoucherController extends Controller
         $voucher->amt_ac = $cmsAg;
         }
     }
+
+    if(strtolower($request->type)=="default"){
+        $voucher_check=Voucher::where([
+            ['type',strtolower($request->type)],
+            ['kista_id',$request->kista_id],
+            ['luckydraw_id',$request->luckydraw_id],
+            ['client_id',$request->client_id],
+            ['amount_paid',$request->amtpaid]]);
+
+            if($voucher_check->exists()){
+                return ['status' => 'exists'];
+            }
+    }
+    else{
+        // $voucher->payment_type = $request->payment_type;
+    }
     // $voucher->amt_ac = null;
         $voucher->amt_to_be_paid = $request->amt2bepaid;
         $voucher->amount_paid = $request->amtpaid;
         $voucher->amtpaid_word=$this->convertNo($amtpaid);
         $voucher->type = $request->type;
         $voucher->luckydraw_id = $request->luckydraw_id;
-        $voucher->payment_type = $request->payment_type;
         $voucher->kista_id = $request->kista_id;
         $voucher->agent_id = $request->agent_id;
+        $voucher->payment_type = $request->payment_type;
         $voucher->client_id = $request->client_id;
         $voucher->recp_no =  $this->IdGenerator(new Voucher,'recp_no',3,'PRD');
         $voucher->date = $request->date;
@@ -109,8 +124,6 @@ class VoucherController extends Controller
         // }
         // return $zeros.$last_number;
     }
-
-    
 
     public static function convertNo($number)
     {

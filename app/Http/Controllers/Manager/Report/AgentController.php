@@ -24,51 +24,50 @@ class AgentController extends Controller
 
     public function index(Request $request)
     {
-        $luckydraw_name = LuckyDraw::where('id',$request->luckydrawid)->value('name');
-        $kista_name = Kista::where('id',$request->kistaid)->value('name');
-        $agent_name = Agent::where('id',$request->agentid)->value('name');
+        $luckydraw_name = LuckyDraw::where('id', $request->luckydrawid)->value('name');
+        $kista_name = Kista::where('id', $request->kistaid)->value('name');
+        $agent_name = Agent::where('id', $request->agentid)->value('name');
 
-        $posts = Detail::orderBy('id','DESC')->where('created_by', Auth::user()->id);
+        $posts = Detail::orderBy('id', 'DESC')->where('created_by', Auth::user()->id);
         $total = 0;
         $commisionamount = 0;
         $totalwithcommision = 0;
-        if($request->has('luckydrawid') && $request->get('luckydrawid')!="")
-        {            
+        if ($request->has('luckydrawid') && $request->get('luckydrawid') != "") {
             $luckydraw_id = $request->luckydrawid;
-            $posts = $posts->whereHas('getClientInfo', function(Builder $query) use ($luckydraw_id){
-                              $query->where('luckydraw_id', $luckydraw_id);
-                            });
-                           
+            $posts = $posts->whereHas('getClientInfo', function (Builder $query) use ($luckydraw_id) {
+                $query->where('luckydraw_id', $luckydraw_id);
+            });
         }
-        if($request->has('kistaid') && $request->get('kistaid')!="")
-        {            
+
+        if ($request->has('kistaid') && $request->get('kistaid') != "") {
             $kista_id = $request->kistaid;
-            $posts = $posts->whereHas('getClientInfo', function(Builder $query) use ($kista_id){
-                              $query->where('kista_id', $kista_id);
-                            });
+            $posts = $posts->whereHas('getClientInfo', function (Builder $query) use ($kista_id) {
+                $query->where('kista_id', $kista_id);
+            });
         }
-        if($request->has('agentid') && $request->get('agentid')!="")
-        {            
-            $posts = $posts->where('agent_id',$request->agentid);
+        
+        if ($request->has('agentid') && $request->get('agentid') != "") {
+            $posts = $posts->where('agent_id', $request->agentid);
         }
-        if($request->has('type') && $request->get('type')!="")
-        {            
-            $posts = $posts->where('lottery_status',$request->type);
+        if ($request->has('type') && $request->get('type') != "") {
+            $posts = $posts->where('lottery_status', $request->type);
             $amount = $posts->sum('amount');
 
             $count = $posts->count();
 
-            $findkistacommision = AgentHasCommision::where('agent_id',$request->agentid)->where('kista_id',$request->kistaid)->value('commission');
+            $findkistacommision = AgentHasCommision::where('agent_id', $request->agentid)->where('kista_id', $request->kistaid)->value('commission');
 
-            $findcommisiontype = AgentHasCommision::where('agent_id',$request->agentid)->where('kista_id',$request->kistaid)->value('commission_type');
+            $findcommisiontype = AgentHasCommision::where('agent_id', $request->agentid)->where('kista_id', $request->kistaid)->value('commission_type');
 
-            if($findcommisiontype == '1'){
-                $commisionamount = ($findkistacommision / 100) * $amount ; 
-            }elseif ($findcommisiontype == '2' ) {
-                $commisionamount = $findkistacommision * $count ;
+            $kistaAmt = Kista::where([['id', $request->kistaid], ['luckydraw_id', $request->luckydrawid]])->value('amount');
+
+            if ($findcommisiontype == '1') {
+                $commisionamount = ($findkistacommision / 100) * $amount;
+            } elseif ($findcommisiontype == '2') {
+                $commisionamount =  ($findkistacommision / $kistaAmt) * $amount;
             }
-            $total = $amount ; 
-            $totalwithcommision = $amount + $commisionamount; 
+            $total = $amount;
+            $totalwithcommision = $amount + $commisionamount;
         }
         $posts = $posts->with('getClientInfo')->paginate(100);
         $response = [
@@ -83,9 +82,9 @@ class AgentController extends Controller
             'agentreports' => $posts,
             'commisionamount' => $commisionamount,
             'total' => $total,
-            'luckydraw_name'=>$luckydraw_name,
-            'kista_name'=>$kista_name,
-            'agent_name'=>$agent_name,
+            'luckydraw_name' => $luckydraw_name,
+            'kista_name' => $kista_name,
+            'agent_name' => $agent_name,
         ];
         return response()->json($response);
     }

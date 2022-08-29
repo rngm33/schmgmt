@@ -84,7 +84,7 @@
                           </router-link> 
                           <a href="" @click.prevent="deleteLuckyDraw(data.id)" class="btn btn-xs btn-outline-danger" title="Click to delete"><i class="fas fa-trash-alt"></i></a>
                           
-                          <router-link :to="`/agent/commision/${data.id}`" class="btn btn-xs btn-outline-info" title="Click to add commission"><i class="fas fa-coins"></i>
+                          <router-link :to="`/agent/commision/${data.id}`" v-if="data.name.toLowerCase()!='default'" class="btn btn-xs btn-outline-info" title="Click to add commission"><i class="fas fa-coins"></i>
                           </router-link> 
                         </td>
                       </tr>

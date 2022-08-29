@@ -161,16 +161,25 @@
       this.form.date = moment(this.form.date).format('YYYY-MM-DD');
       this.form.post('/manager/client')
       .then((response)=>{
-        // console.log(response);
-        this.$router.push(`/agent/add/client/${this.$route.params.agentid}`)
-        Toast.fire({
-          icon: 'success',
-          title: 'Detail Added successfully'
+         if (response.data.message === "invalidserialno") {
+            Toast.fire({
+              icon: 'error',
+              title: 'Invalid serial number'
+            })
+            this.state.isSending = false;
+          }
+          else {
+         this.$router.push(`/agent/add/client/${this.$route.params.agentid}`)
+            Toast.fire({
+              icon: 'success',
+              title: 'Detail Added successfully'
+            })
+          }
+          this.state.isSending = false;
         })
-      })
-      .catch(()=>{
-        this.state.isSending = false;
-      })
+        .catch(() => {
+          this.state.isSending = false;
+        })
       // this.resetForm();
     },
     resetForm() {

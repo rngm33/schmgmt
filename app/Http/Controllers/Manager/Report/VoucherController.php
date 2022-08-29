@@ -26,7 +26,8 @@ class VoucherController extends Controller
         // dd($request->all());
         if ($request->type == "Default") {
             // get id of Default agent
-            $defid = Agent::where('name', 'default')->first()->id;
+            $defid = Agent::where('created_by',Auth::user()->id)
+            ->where('name', 'default')->first()->id;
             $respo = Client::where('agent_id', $defid)->get();
             $status = false;
         }
@@ -36,7 +37,8 @@ class VoucherController extends Controller
             // $data=[];
             // foreach($respo as $key=>$agentlist){
             // $data[$key]= Voucher::where('agent_id',$agentlist->id)
-            $respo = Agent::where('name', '!=', 'default')
+            $respo = Agent::where('created_by',Auth::user()->id)
+            ->where('name', '!=', 'default')
             // ->where('luckydraw_id', $luckydrawid)
             // ->where('kista_id', $kistaid)
             // ->with('getAgentDetail')
@@ -64,7 +66,8 @@ class VoucherController extends Controller
      $luckydrawid = $request->luckydrawid;
      $luckydraw_name=LuckyDraw::where('id',$luckydrawid)->first()->name;
      $kista_name=Kista::where('id',$kistaid)->first()->name;
-     $defid = Agent::where('name', 'default')->first()->id;
+     $defid = Agent::where('created_by',Auth::user()->id)
+     ->where('name', 'default')->first()->id;
 
      $ag_amt = Detail::where('agent_id', '!=', $defid)
      ->where('luckydraw_id',$luckydrawid)
@@ -203,9 +206,11 @@ class VoucherController extends Controller
         $kistaid = $request->kistaid;
         $luckydrawid = $request->luckydrawid;
 
-        $defid = Agent::where('name', 'default')->first()->id;
+        $defid = Agent::where('created_by',Auth::user()->id)
+        ->where('name', 'default')->first()->id;
         $lname=LuckyDraw::where('id', $luckydrawid)->value('name');
-        $kista_name = Kista::where('id',$kistaid)->value('name');
+        $kista_name = Kista::where('created_by',Auth::user()->id)
+        ->where('id',$kistaid)->value('name');
 
         if (($agentid == "null" && $clientid)) {
             $voucher = Voucher::where([

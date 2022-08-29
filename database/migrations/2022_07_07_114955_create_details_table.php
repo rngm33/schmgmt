@@ -23,8 +23,6 @@ class CreateDetailsTable extends Migration
             $table->foreign('kista_id')->references('id')->on('kistas');
             $table->unsignedBigInteger('agent_id');
             $table->foreign('agent_id')->references('id')->on('agents');
-            $table->unsignedBigInteger('voucher_id');
-            $table->foreign('voucher_id')->references('id')->on('voucher');
             $table->integer('lottery_status'); //1 for unpaid 2 for paid 3 for leave  
             $table->integer('payment_type')->nullable(); 
             $table->string('amount')->nullable();

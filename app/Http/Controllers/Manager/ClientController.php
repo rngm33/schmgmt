@@ -130,8 +130,11 @@ class ClientController extends Controller
     }
     public function store(Request $request)
     {
-        
         $name = $request->serial_no;
+        if(!(($name >= 0000) && ($name <= 6999))){
+            return ['message' => 'invalidserialno'];
+
+        }
         $booking_data = Booking::where('booked_serialno', 'LIKE',"%{$name}%")
                             ->where('is_active','1')
                             ->where('agent_id',$request->agent_id)
@@ -140,7 +143,6 @@ class ClientController extends Controller
                             ->where('is_active','1')
                             ->where('agent_id',$request->agent_id)
                             ->value('id');
-        dd($booking_id);
 
         $request['slug'] = $this->helper->slug_converter($request['serial_no']).'-'.Auth::user()->id;
         $this->validate($request, [
@@ -157,7 +159,6 @@ class ClientController extends Controller
             'name' => $request['name'],
             'address' => $request['address'],
             'phone' => $request['phone'],
-       
             'serial_no' => $request['serial_no'],
             'slug' =>  $this->helper->slug_converter($request['serial_no']).'-'.Auth::user()->id,
             'date_np' => $this->helper->date_np_con_parm($request['date']),
@@ -216,12 +217,14 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $this->validate($request, [
-        //     'name' => 'required',
-        // ]);
-        // dd($request,$id);
+        
+        $sno = $request->serial_no;
+        if(!(($sno >= 0000) && ($sno <= 6999))){
+            return ['message' => 'invalidserialno'];
+
+        }
         $ids = $request->id;
-        $request['slug'] = $this->helper->slug_converter($request['serial_no']).'-'.Auth::user()->id;
+        $request['slug'] = $this->helper->slug_converter($sno).'-'.Auth::user()->id;
         $this->validate($request, [
             'name' => 'required',
             'address' => 'required',
@@ -236,8 +239,8 @@ class ClientController extends Controller
             'address' => $request['address'],
             'phone' => $request['phone'],
             // 'serial_no' => $request['serial_no'],
-            'serial_no' => $request['serial_no'],
-            'slug' =>  $this->helper->slug_converter($request['serial_no']).'-'.Auth::user()->id,
+            'serial_no' => $sno,
+            'slug' =>  $this->helper->slug_converter($sno).'-'.Auth::user()->id,
             // 'lottery_no' => $request['lottery_no'],
             'date' => $request['date'],
             'date_np' => $this->helper->date_np_con_parm($request['date']),

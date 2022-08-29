@@ -38,7 +38,7 @@
                     </select>
                   </div>
                   <div class="col-md">
-                    <select class="form-control" id="kista_id" name="kista_id" v-model="kista_id" @change="kistaChange" >
+                    <select class="form-control" id="kista_id" name="kista_id" v-model="kista_id" @change="kistaChange">
                       <option value="">Select Kista</option>
                       <option :value="kista.id" v-for="kista in getAllKista">{{ kista.name }}</option>
                     </select>
@@ -296,6 +296,7 @@ export default {
     }
   },
   mounted() {
+    console.log('mounted')
     this.$store.dispatch("allSelectLuckyDraw")
 
   },
@@ -411,8 +412,8 @@ export default {
             updateMode: that.updateMode
           }).then(function (response) {
 
-            if (response.data.message==="kistaempty") {
-               Toast.fire({
+            if (response.data.message === "kistaempty") {
+              Toast.fire({
                 icon: 'error',
                 title: 'Previous Kista Is Not Paid'
               });
@@ -448,14 +449,18 @@ export default {
         cid: cid, ls: ls, pt: pt, amt: amt, kid: kid, lid: lid,
         updateMode: that.updateMode
       }).then(function (response) {
-        // window.location.reload();
         // console.log(response.data.id);
 
         if (response.data.status === "success") {
+          Toast.fire({
+            icon: 'success',
+            title: 'Data updated successfully'
+          })
+          window.location.reload();
+
           that.stscolor = response.data.id;
           that.state.isSending = true;
         }
-        console.log(that.stscolor);
 
       })["catch"](function () { });
 

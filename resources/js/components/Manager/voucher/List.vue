@@ -128,7 +128,7 @@
                             </i>
                           </router-link>  -->
                               <button class="btn btn-xs btn-outline-info" title="View"><i class="fas fa-eye"
-                                  @click="fetchDefaultData(detail.get_client_info.id,detail.agent_id)">
+                                  @click="fetchDefaultData(detail.get_client_info.id, detail.agent_id)">
 
                                 </i></button>
                             </td>
@@ -151,23 +151,55 @@
                             <h4><span class="badge badge-warning p-2 ">{{ this.data.name }}</span>
                             </h4>
                           </div>
-                          
-                          <div class="col-md-12">
+
+
+                          <div v-if="data.agsts" class="col-md-12">
+                            <label class="form-control no-border">Total Amount To Be paid : <span
+                                class="badge badge-primary p-2">RS. {{
+                                    this.data.totamt2bepaid
+                                }}</span> </label>
+                          </div>
+
+                          <div v-if="data.agsts == true && data.ispaid" class="col-md-12">
+                            <label class="form-control no-border">Remaining Amount To Be paid : <span
+                                class="badge badge-primary p-2">RS. {{
+                                    this.data.remamt2bepaid
+                                }}</span> </label>
+                          </div>
+
+
+
+                          <!-- <div v-if="data.agsts == true && data.ispaid == false" class="col-md-12">
+                            <label class="form-control no-border">Amount To Be paid : <span
+                                class="badge badge-primary p-2">RS. {{
+                                    this.data.amt2bepaid
+                                }}</span> </label>
+                          </div> -->
+
+
+                          <div v-if="data.agsts == false" class="col-md-12">
                             <label class="form-control no-border">Amount To Be paid : <span
                                 class="badge badge-primary p-2">RS. {{
                                     this.data.amt2bepaid
                                 }}</span> </label>
                           </div>
-
+                          <div v-if="data.agsts == false && data.ispaid" class="col-md-12">
+                            <label class="form-control no-border">Remaining Amount To Be paid : <span
+                                class="badge badge-primary p-2">RS. {{
+                                    this.data.due
+                                }}</span> </label>
+                          </div>
                           <div class="col-md-12">
                             <label class="form-control no-border">Paid Amount :
-                              <span class="badge badge-success p-2">RS. {{ this.data.amtpaid }}</span></label>
+                              <span class="badge~ badge-success p-2">RS. {{ this.data.amtpaid }}</span></label>
                           </div>
 
-                          <div class="col-md-12">
+                          <div v-if="data.amtpaid != 0" class="col-md-12">
                             <label class="form-control no-border">Due Amount :
-                              <span class="badge badge-danger p-2">
-                                RS. {{ this.data.amt2bepaid - this.data.amtpaid }}</span>
+                              <span v-if="data.agsts == false" class="badge badge-danger p-2">
+                                RS. {{ this.data.due }}</span>
+                              <span v-else class="badge badge-danger p-2">RS. {{ this.data.remamt2bepaid }}</span>
+
                             </label>
                           </div>
 
@@ -183,7 +215,7 @@
                             <has-error :form="form" field="date"></has-error>
                           </div>
 
-                          <div class="col-md-12">
+                          <div v-if="data.agsts" class="col-md-12">
                             <label class="form-control no-border">Payment Type</label>
                             <input type="radio" id="wallet" value="1" v-model="payment_type">
                             <label for="wallet">Digital Wallet</label>
@@ -196,10 +228,10 @@
                           </div>
 
                           <div class="col-md-12">
-                          <button type="submit" class="btn btn-primary mx-auto d-block" :disabled="state.isSending">{{
-                              state.isSending ?
-                                "Loading..." : "Save"
-                          }}</button>
+                            <button type="submit" class="btn btn-primary mx-auto d-block" :disabled="state.isSending">{{
+                                state.isSending ?
+                                  "Loading..." : "Save"
+                            }}</button>
                           </div>
                         </div>
                       </div>
@@ -273,9 +305,14 @@ export default {
       lid: '',
       kid: '',
       data: {
+        ispaid: '',
+        due: '',
+        totamt2bepaid: '',
         amt2bepaid: '',
         amtpaid: '',
-        name: ''
+        agsts: '',
+        name: '',
+        remamt2bepaid: '',
       }, show: false
     }
   },
@@ -379,7 +416,9 @@ export default {
     clearData() {
       this.data.name = "";
       this.data.amtpaid = "";
+      this.data.due = "";
       this.data.amt2bepaid = "";
+      this.data.totamt2bepaid = "";
       this.show = false
     },
     fetchAgentData(id) {
@@ -387,25 +426,35 @@ export default {
         "&kistaid=" + this.kid + "&luckydrawid=" + this.lid)
         .then((response) => {
           this.data.amt2bepaid = response.data.amt2bepaid
+          this.data.totamt2bepaid = response.data.totamt2bepaid
           this.data.amtpaid = response.data.amtpaid
+          this.data.due = response.data.due
+          this.data.remamt2bepaid = response.data.remamt2bepaid
           this.agent_id = id
+          this.data.agsts = response.data.agsts
           this.data.name = response.data.agent.name
+          this.data.ispaid = response.data.ispaid
           this.payment_type = 3
           this.show = true
 
         })
     },
-    fetchDefaultData(clientid,agentid) {
+    fetchDefaultData(clientid, agentid) {
       axios.get("/manager/mdetailvoucherdef/" + "?clientid=" + clientid +
         "&kistaid=" + this.kid + "&luckydrawid=" + this.lid)
         .then((response) => {
           console.log(response.data.respo)
           this.data.amt2bepaid = response.data.kistaamt
-          this.data.amtpaid = response.data.respo.amount
+          // this.data.amtpaid = response.data.respo.amount
+          this.data.amtpaid = response.data.amtpaid
+          this.data.agsts = response.data.agsts
           this.agent_id = agentid
-          this.client_id= clientid
+          this.data.ispaid = response.data.ispaid
+
+          this.data.due = response.data.due
+          this.client_id = clientid
           this.data.name = response.data.respo.get_client_info.name
-          this.payment_type = 3
+          this.payment_type = response.data.respo.payment_type
           this.show = true
         })
     },
@@ -438,14 +487,26 @@ export default {
 
           }).then(function (response) {
             // window.location.reload();
-            if(response.data.status==="success") {
+            if (response.data.status === "exists") {
+              Toast.fire({
+                icon: 'warning',
+                title: 'Voucher for this amount is already saved'
+              });
+            }
+            if (response.data.status === "failed") {
+              Toast.fire({
+                icon: 'warning',
+                title: 'No amount paid to create voucher'
+              });
+            }
+            if (response.data.status === "success") {
               Toast.fire({
                 icon: 'success',
                 title: 'voucher added successfully'
               });
-              that.show=false;
+              that.show = false;
               that.state.isSending = true;
-              
+
             }
           })["catch"](function () { });
         } else {

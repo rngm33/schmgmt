@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Manager;
 
+use App\ClientPaidDue;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Detail;
@@ -65,7 +66,28 @@ class RemainingController extends Controller
                 'rpaid_date' => date("Y-m-d"),
                 'rpaid_date_np' => date("Y-m-d"),
             ]);
+
+            $clientpaydue = new ClientPaidDue();
+            $clientpaydue->client_id = $datas->client_id;
+            // $clientpaydue->detail_id = $datas->id;
+            $clientpaydue->luckydraw_id = $datas->luckydraw_id;
+            $clientpaydue->kista_id = $datas->kista_id;
+            $clientpaydue->agent_id = $datas->agent_id;
+            $clientpaydue->lottery_status = 2;
+            $clientpaydue->payment_type = $datas->payment_type;
+            $clientpaydue->amount = $remaining;
+            $clientpaydue->remaining = $remaining - $amount;
+            $clientpaydue->rpaid_date =  date("Y-m-d");
+            $clientpaydue->rpaid_date_np = date("Y-m-d");
+            $clientpaydue->date_np = $datas->date_np;
+            $clientpaydue->date = $datas->date;
+            $clientpaydue->time = $datas->time;
+            $clientpaydue->is_active = $datas->is_active;
+            $clientpaydue->is_remained = $datas->is_remained;
+            $clientpaydue->created_by = $datas->created_by;
+            $clientpaydue->save();
             return ['message' => 'Data Updated'];
+
         }                    
 
     }
